@@ -2,147 +2,303 @@
    script.js — Portfolio Visual Storyteller
    ═══════════════════════════════════════════════════════════ */
 
-/* ── DETECT PLATFORM & DEVICE ────────────────────────────────
-   Mendeteksi apakah user di mobile, tablet, atau desktop
-   untuk optimasi scroll animation yang lebih baik
-──────────────────────────────────────────────────────────── */
 const isMobile = window.innerWidth <= 768;
 const isTablet = window.innerWidth > 768 && window.innerWidth <= 1024;
 const isDesktop = window.innerWidth > 1024;
 const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 const isAndroid = /Android/.test(navigator.userAgent);
 
-/* ── INIT GSAP ScrollTrigger ─────────────────────────────────── */
-gsap.registerPlugin(ScrollTrigger);
+if (window.gsap && window.ScrollTrigger) {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
-// Disable smooth scroll pada mobile untuk performa lebih baik
 if (isMobile) {
   document.documentElement.style.scrollBehavior = 'auto';
 } else {
   document.documentElement.style.scrollBehavior = 'smooth';
 }
 
-/* ── CURSOR ─────────────────────────────────────────────────────
-   Mengikuti posisi mouse secara real-time (desktop saja).
-──────────────────────────────────────────────────────────── */
 const cursor = document.getElementById('cursor');
 
-if (isDesktop) {
-  document.addEventListener('mousemove', (e) => {
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top = e.clientY + 'px';
-  });
-} else {
-  cursor.style.display = 'none';
+if (cursor) {
+  if (isDesktop) {
+    document.addEventListener('mousemove', (e) => {
+      cursor.style.left = `${e.clientX}px`;
+      cursor.style.top = `${e.clientY}px`;
+    });
+  } else {
+    cursor.style.display = 'none';
+  }
 }
 
-/* ── NAVBAR SCROLL ───────────────────────────────────────────
-   Menambah class .scrolled saat halaman di-scroll > 60px
-   agar navbar mendapat blur backdrop.
-──────────────────────────────────────────────────────────── */
 const mainNav = document.getElementById('mainNav');
 
-window.addEventListener('scroll', () => {
-  mainNav.classList.toggle('scrolled', window.scrollY > 60);
-});
+if (mainNav) {
+  window.addEventListener('scroll', () => {
+    mainNav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+}
 
-/* ── VIDEO FALLBACK ──────────────────────────────────────────
-   Sembunyikan fallback jika video tersedia; sembunyikan video
-   jika tidak ada source yang disediakan.
-──────────────────────────────────────────────────────────── */
 const heroVideo = document.getElementById('heroVideo');
 const videoFallback = document.getElementById('videoFallback');
 
-if (heroVideo && heroVideo.querySelector('source')) {
-  videoFallback.style.display = 'none';
-} else if (heroVideo) {
-  heroVideo.style.display = 'none';
+if (heroVideo && videoFallback) {
+  if (heroVideo.querySelector('source')) {
+    videoFallback.style.display = 'none';
+  } else {
+    heroVideo.style.display = 'none';
+  }
 }
 
-/* ── CAROUSEL ────────────────────────────────────────────────
-   Menggeser item carousel dengan memanipulasi urutan DOM.
-   Prev → prepend item terakhir ke depan.
-   Next → append item pertama ke belakang.
-──────────────────────────────────────────────────────────── */
+const typingTarget = document.getElementById('typingTarget');
+
+if (typingTarget) {
+  const phrases = (typingTarget.dataset.typing || '')
+    .split(',')
+    .map((phrase) => phrase.trim())
+    .filter(Boolean);
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (phrases.length && !prefersReducedMotion) {
+    let phraseIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+
+    const TYPE_SPEED = 65;
+    const DELETE_SPEED = 35;
+    const HOLD_AFTER_TYPE = 1800;
+    const HOLD_AFTER_DELETE = 400;
+
+    const tick = () => {
+      const currentPhrase = phrases[phraseIndex];
+
+      if (!isDeleting) {
+        charIndex += 1;
+        typingTarget.textContent = currentPhrase.slice(0, charIndex);
+
+        if (charIndex === currentPhrase.length) {
+          isDeleting = true;
+          window.setTimeout(tick, HOLD_AFTER_TYPE);
+          return;
+        }
+
+        window.setTimeout(tick, TYPE_SPEED);
+        return;
+      }
+
+      charIndex -= 1;
+      typingTarget.textContent = currentPhrase.slice(0, charIndex);
+
+      if (charIndex === 0) {
+        isDeleting = false;
+        phraseIndex = (phraseIndex + 1) % phrases.length;
+        window.setTimeout(tick, HOLD_AFTER_DELETE);
+        return;
+      }
+
+      window.setTimeout(tick, DELETE_SPEED);
+    };
+
+    tick();
+  } else if (phrases.length) {
+    typingTarget.textContent = phrases[0];
+  }
+}
+
 const slider = document.getElementById('mainSlider');
 const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
+const dotsContainer = document.getElementById('carouselDots');
+const carouselSection = document.getElementById('portfolioCarousel') || document.querySelector('.portfolio-carousel');
+const carouselCurrent = document.getElementById('carouselCurrent');
+const carouselTotal = document.getElementById('carouselTotal');
 
-/**
- * Mengaktifkan arah carousel.
- * @param {'next' | 'prev'} direction
- */
-function activateSlider(direction) {
-  const items = slider.querySelectorAll('.slider-item');
+if (slider && prevBtn && nextBtn) {
+  const slides = Array.from(slider.querySelectorAll('.portfolio-slide'));
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const totalItems = slides.length;
+  const animationDuration = prefersReducedMotion ? 0 : 720;
+  const autoplayDelay = 7000;
 
-  if (direction === 'next') {
-    slider.append(items[0]);
-  } else if (direction === 'prev') {
-    slider.prepend(items[items.length - 1]);
+  let activeIndex = 0;
+  let isAnimating = false;
+  let autoplayTimer = null;
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let touchMoved = false;
+
+  const formatIndex = (index) => String(index + 1).padStart(2, '0');
+
+  const syncCarouselState = () => {
+    slider.style.transform = `translateX(-${activeIndex * 100}%)`;
+
+    slides.forEach((slide, index) => {
+      const isActive = index === activeIndex;
+      slide.classList.toggle('is-active', isActive);
+      slide.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+      slide.setAttribute('tabindex', isActive ? '0' : '-1');
+    });
+
+    if (carouselCurrent) {
+      carouselCurrent.textContent = formatIndex(activeIndex);
+    }
+
+    if (carouselTotal) {
+      carouselTotal.textContent = formatIndex(totalItems);
+    }
+
+    if (dotsContainer) {
+      Array.from(dotsContainer.children).forEach((dot, index) => {
+        dot.classList.toggle('is-current', index === activeIndex);
+        dot.setAttribute('aria-pressed', index === activeIndex ? 'true' : 'false');
+      });
+    }
+  };
+
+  const moveTo = (targetIndex) => {
+    if (isAnimating || totalItems < 2) {
+      return;
+    }
+
+    const nextIndex = (targetIndex + totalItems) % totalItems;
+    if (nextIndex === activeIndex) {
+      return;
+    }
+
+    isAnimating = true;
+    activeIndex = nextIndex;
+    syncCarouselState();
+
+    window.setTimeout(() => {
+      isAnimating = false;
+    }, animationDuration);
+  };
+
+  const nextSlide = () => moveTo(activeIndex + 1);
+  const prevSlide = () => moveTo(activeIndex - 1);
+
+  const stopAutoplay = () => {
+    if (autoplayTimer) {
+      window.clearInterval(autoplayTimer);
+      autoplayTimer = null;
+    }
+  };
+
+  const startAutoplay = () => {
+    if (prefersReducedMotion || isMobile || totalItems < 2) {
+      return;
+    }
+
+    stopAutoplay();
+    autoplayTimer = window.setInterval(nextSlide, autoplayDelay);
+  };
+
+  if (dotsContainer) {
+    dotsContainer.innerHTML = '';
+
+    slides.forEach((_, index) => {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = 'dot';
+      dot.setAttribute('role', 'tab');
+      dot.setAttribute('aria-label', `Ke proyek ${index + 1}`);
+      dot.addEventListener('click', () => {
+        moveTo(index);
+        startAutoplay();
+      });
+      dotsContainer.appendChild(dot);
+    });
   }
-}
 
-nextBtn.addEventListener('click', () => activateSlider('next'));
-prevBtn.addEventListener('click', () => activateSlider('prev'));
+  prevBtn.addEventListener('click', () => {
+    prevSlide();
+    startAutoplay();
+  });
 
-/* Touch / swipe support ─────────────────────────────────── */
-/* ── Touch / swipe support (UPDATED FOR MOBILE) ─────────── */
-let touchStartX = 0;
-let touchEndX = 0;
+  nextBtn.addEventListener('click', () => {
+    nextSlide();
+    startAutoplay();
+  });
 
-// Tambahkan passive: true untuk performa scroll yang lebih baik
-slider.addEventListener('touchstart', (e) => {
-  touchStartX = e.changedTouches[0].screenX;
-}, { passive: true });
+  if (carouselSection) {
+    carouselSection.setAttribute('tabindex', '0');
 
-slider.addEventListener('touchend', (e) => {
-  touchEndX = e.changedTouches[0].screenX;
-  handleSwipe();
-}, { passive: true });
-
-function handleSwipe() {
-  const swipeThreshold = 40; // Jarak minimal agar dianggap sebagai swipe
-  const deltaX = touchEndX - touchStartX;
-
-  if (deltaX < -swipeThreshold) {
-    // Swipe ke Kiri -> Next
-    activateSlider('next');
-  } else if (deltaX > swipeThreshold) {
-    // Swipe ke Kanan -> Prev
-    activateSlider('prev');
-  }
-}
-
-/* ── SCROLL REVEAL (UPDATE) ──────────────────────────────────
-   Memicu animasi elemen saat masuk ke viewport.
-──────────────────────────────────────────────────────────── */
-const revealElements = document.querySelectorAll(
-  '.reveal, .reveal-left, .reveal-right, .reveal-scale'
-);
-
-const revealObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      } else {
-        entry.target.classList.remove('visible');
+    carouselSection.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') {
+        nextSlide();
+        startAutoplay();
+      } else if (e.key === 'ArrowLeft') {
+        prevSlide();
+        startAutoplay();
       }
     });
-  },
-  {
-    threshold: 0.15,
-    rootMargin: '0px 0px -50px 0px'
+
+    carouselSection.addEventListener('mouseenter', stopAutoplay);
+    carouselSection.addEventListener('mouseleave', startAutoplay);
+    carouselSection.addEventListener('focusin', stopAutoplay);
+    carouselSection.addEventListener('focusout', startAutoplay);
   }
-);
 
-revealElements.forEach((el) => revealObserver.observe(el));
+  slider.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
+    touchMoved = false;
+    stopAutoplay();
+  }, { passive: true });
 
-/* ── SCROLL ANIMATIONS DESKTOP ──────────────────────────────
-   Animasi parallax dan scroll untuk desktop dengan GSAP
-──────────────────────────────────────────────────────────── */
-if (isDesktop) {
-  // Hero title parallax
+  slider.addEventListener('touchmove', (e) => {
+    const touch = e.changedTouches[0];
+    touchMoved = Math.abs(touch.screenX - touchStartX) > 10 || Math.abs(touch.screenY - touchStartY) > 10;
+  }, { passive: true });
+
+  slider.addEventListener('touchend', (e) => {
+    if (!touchMoved) {
+      startAutoplay();
+      return;
+    }
+
+    const touchEndX = e.changedTouches[0].screenX;
+    const deltaX = touchEndX - touchStartX;
+    const swipeThreshold = 50;
+
+    if (deltaX < -swipeThreshold) {
+      nextSlide();
+    } else if (deltaX > swipeThreshold) {
+      prevSlide();
+    }
+
+    startAutoplay();
+  }, { passive: true });
+
+  syncCarouselState();
+  startAutoplay();
+}
+
+const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+
+if (window.IntersectionObserver) {
+  const revealObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        } else {
+          entry.target.classList.remove('visible');
+        }
+      });
+    },
+    {
+      threshold: 0.15,
+      rootMargin: '0px 0px -50px 0px'
+    }
+  );
+
+  revealElements.forEach((el) => revealObserver.observe(el));
+} else {
+  revealElements.forEach((el) => el.classList.add('visible'));
+}
+
+if (window.gsap && window.ScrollTrigger && isDesktop) {
   gsap.fromTo(
     '.hero-title',
     { y: 0, opacity: 1 },
@@ -153,13 +309,11 @@ if (isDesktop) {
         trigger: '#hero',
         start: 'top top',
         end: 'bottom center',
-        scrub: 1,
-        markers: false
+        scrub: 1
       }
     }
   );
 
-  // About section fade-in & slide
   gsap.fromTo(
     '#about',
     { opacity: 0 },
@@ -170,13 +324,11 @@ if (isDesktop) {
         trigger: '#about',
         start: 'top 70%',
         end: 'top 30%',
-        scrub: 1,
-        markers: false
+        scrub: 1
       }
     }
   );
 
-  // About photo zoom effect
   gsap.fromTo(
     '.about-photo-placeholder',
     { scale: 0.8, opacity: 0 },
@@ -193,10 +345,6 @@ if (isDesktop) {
     }
   );
 
-  // About title parallax scroll animation
- 
-
-  // About badge counter animation
   gsap.fromTo(
     '.badge-counter',
     { innerHTML: 0, opacity: 0, scale: 0 },
@@ -214,7 +362,6 @@ if (isDesktop) {
     }
   );
 
-  // Badge pulse/glow animation
   gsap.fromTo(
     '.about-badge',
     { boxShadow: '0 0 0px 0px rgba(245, 160, 51, 0)' },
@@ -231,7 +378,6 @@ if (isDesktop) {
     }
   );
 
-  // Badge plus sign rotate animation
   gsap.fromTo(
     '.badge-plus',
     { rotation: 0, opacity: 0 },
@@ -247,7 +393,6 @@ if (isDesktop) {
     }
   );
 
-  // Badge scale pop animation
   gsap.fromTo(
     '.about-badge',
     { scale: 0, rotation: -10 },
@@ -263,7 +408,6 @@ if (isDesktop) {
     }
   );
 
-  // About stats counter animation
   gsap.utils.toArray('.stat-num').forEach((stat) => {
     gsap.fromTo(
       stat,
@@ -281,15 +425,15 @@ if (isDesktop) {
     );
   });
 
-  // Work section stagger animation
   gsap.fromTo(
-    '.slider-item',
-    { opacity: 0, scale: 0.9 },
+    '.portfolio-slide',
+    { opacity: 0, y: 40, scale: 0.98 },
     {
       opacity: 1,
+      y: 0,
       scale: 1,
-      duration: 0.6,
-      stagger: 0.1,
+      duration: 0.7,
+      stagger: 0.12,
       scrollTrigger: {
         trigger: '#work',
         start: 'top 60%',
@@ -298,7 +442,6 @@ if (isDesktop) {
     }
   );
 
-  // Services card hover animation
   gsap.utils.toArray('.service-card').forEach((card, index) => {
     gsap.fromTo(
       card,
@@ -317,7 +460,6 @@ if (isDesktop) {
     );
   });
 
-  // Testimonial fade-in
   gsap.fromTo(
     '.testimonial-text',
     { opacity: 0, y: 50 },
@@ -333,7 +475,6 @@ if (isDesktop) {
     }
   );
 
-  // Contact section slide-up
   gsap.fromTo(
     '#contact',
     { opacity: 0, y: 100 },
@@ -350,11 +491,7 @@ if (isDesktop) {
   );
 }
 
-/* ── SCROLL ANIMATIONS MOBILE ──────────────────────────────
-   Animasi scroll yang lebih ringan untuk mobile/tablet
-──────────────────────────────────────────────────────────── */
-if (isMobile || isTablet) {
-  // About photo scale on scroll (ringan)
+if (window.gsap && window.ScrollTrigger && (isMobile || isTablet)) {
   gsap.fromTo(
     '.about-photo-placeholder',
     { scale: 0.95 },
@@ -364,13 +501,11 @@ if (isMobile || isTablet) {
         trigger: '.about-photo-placeholder',
         start: 'top bottom',
         end: 'top 60%',
-        scrub: 0.5,
-        markers: false
+        scrub: 0.5
       }
     }
   );
 
-  // About title parallax mobile (lebih ringan)
   gsap.fromTo(
     '.about-title',
     { y: 0 },
@@ -380,13 +515,11 @@ if (isMobile || isTablet) {
         trigger: '#about',
         start: 'top center',
         end: 'center center',
-        scrub: 0.3,
-        markers: false
+        scrub: 0.3
       }
     }
   );
 
-  // Badge counter animation mobile
   gsap.fromTo(
     '.badge-counter',
     { innerHTML: 0, opacity: 0, scale: 0.5 },
@@ -404,7 +537,6 @@ if (isMobile || isTablet) {
     }
   );
 
-  // Badge glow mobile (lebih ringan)
   gsap.fromTo(
     '.about-badge',
     { boxShadow: '0 0 10px 2px rgba(245, 160, 51, 0)' },
@@ -421,7 +553,6 @@ if (isMobile || isTablet) {
     }
   );
 
-  // Badge scale pop mobile
   gsap.utils.toArray('.service-card').forEach((card, index) => {
     gsap.fromTo(
       card,
@@ -440,7 +571,6 @@ if (isMobile || isTablet) {
     );
   });
 
-  // Parallax yang ringan untuk hero
   gsap.fromTo(
     '.hero-title',
     { y: 0 },
@@ -456,35 +586,26 @@ if (isMobile || isTablet) {
   );
 }
 
-/* ── OPTIMASI TOUCH UNTUK iOS ───────────────────────────── */
 if (isIOS) {
-  document.body.addEventListener('touchmove', function(e) {
-    // Prevent scroll bounce
+  document.body.addEventListener('touchmove', (e) => {
     if (e.target.closest('input, textarea, select')) {
       return;
     }
   }, { passive: true });
 
-  // Fix untuk iOS 100vh issue
-  const vh = window.innerHeight * 0.01;
-  document.documentElement.style.setProperty('--vh', `${vh}px`);
-
-  window.addEventListener('resize', () => {
+  const updateViewportHeight = () => {
     const vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', `${vh}px`);
-  });
+  };
+
+  updateViewportHeight();
+  window.addEventListener('resize', updateViewportHeight);
 }
 
-/* ── OPTIMASI ANDROID SCROLL ────────────────────────────── */
-if (isAndroid) {
-  // Reduce animation complexity untuk Android
+if (isAndroid && window.ScrollTrigger) {
   ScrollTrigger.defaults({ fastScrollEnd: true });
 }
 
-/* ── CONTACT FORM ────────────────────────────────────────────
-   Mencegah default submit; menampilkan konfirmasi sementara;
-   mereset form setelah 3 detik.
-──────────────────────────────────────────────────────────── */
 const contactForm = document.getElementById('contactForm');
 
 if (contactForm) {
@@ -493,13 +614,15 @@ if (contactForm) {
 
     const submitBtn = contactForm.querySelector('.form-submit');
 
-    // Tampilkan status berhasil
+    if (!submitBtn) {
+      return;
+    }
+
     submitBtn.textContent = 'Pesan Terkirim ✓';
     submitBtn.style.background = '#2a7a4b';
     submitBtn.style.color = '#fff';
 
-    // Reset setelah 3 detik
-    setTimeout(() => {
+    window.setTimeout(() => {
       submitBtn.textContent = 'Kirim Pesan →';
       submitBtn.style.background = '';
       submitBtn.style.color = '';
@@ -508,37 +631,56 @@ if (contactForm) {
   });
 }
 
-/* ── PERFORMANCE OPTIMIZATION ──────────────────────────────
-   Reduce frame rate pada mobile untuk hemat baterai
-──────────────────────────────────────────────────────────── */
-if (isMobile) {
+if (isMobile && window.ScrollTrigger) {
   ScrollTrigger.config({ autoRefreshEvents: 'visibilitychange,orientationchange' });
+}
 
-  /* ── MOBILE MENU LOGIC ─────────────────────────────────────── */
 const mobileMenuToggle = document.getElementById('mobileMenuToggle');
 const navLinks = document.getElementById('navLinks');
 const navItems = document.querySelectorAll('.nav-links a');
 
 if (mobileMenuToggle && navLinks) {
-  mobileMenuToggle.addEventListener('click', () => {
-    // Toggle class active
-    navLinks.classList.toggle('active');
-    
-    // Ganti ikon menu menjadi close (silang) saat terbuka
-    const icon = mobileMenuToggle.querySelector('ion-icon');
-    if (navLinks.classList.contains('active')) {
-      icon.setAttribute('name', 'close-outline');
-    } else {
+  const icon = mobileMenuToggle.querySelector('ion-icon');
+
+  const closeMenu = () => {
+    navLinks.classList.remove('active');
+    if (icon) {
       icon.setAttribute('name', 'menu-outline');
+    }
+    mobileMenuToggle.setAttribute('aria-expanded', 'false');
+  };
+
+  const toggleMenu = () => {
+    const isOpen = navLinks.classList.toggle('active');
+    if (icon) {
+      icon.setAttribute('name', isOpen ? 'close-outline' : 'menu-outline');
+    }
+    mobileMenuToggle.setAttribute('aria-expanded', String(isOpen));
+  };
+
+  mobileMenuToggle.addEventListener('click', toggleMenu);
+
+  mobileMenuToggle.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      toggleMenu();
     }
   });
 
-  // Tutup menu otomatis jika salah satu link diklik
-  navItems.forEach(item => {
-    item.addEventListener('click', () => {
-      navLinks.classList.remove('active');
-      mobileMenuToggle.querySelector('ion-icon').setAttribute('name', 'menu-outline');
-    });
+  navItems.forEach((item) => {
+    item.addEventListener('click', closeMenu);
   });
-}
+
+  const desktopMediaQuery = window.matchMedia('(min-width: 901px)');
+  desktopMediaQuery.addEventListener('change', (e) => {
+    if (e.matches) {
+      closeMenu();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && navLinks.classList.contains('active')) {
+      closeMenu();
+    }
+  });
 }

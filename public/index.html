@@ -5,40 +5,51 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <title>Portfolio — Visual Storyteller</title>
+  <title>Theodorus Leander — Software Engineer Portfolio</title>
+  <meta name="description" content="Portfolio Theodorus Leander — Software Engineer yang fokus pada backend development, mobile apps, dan game mechanics." />
+  <meta name="theme-color" content="#08080F" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-  <!-- GSAP & ScrollTrigger untuk animasi scroll -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+  <style>
+    .timeline { display: flex; flex-direction: column; gap: 3rem; border-left: 2px solid var(--amber); padding-left: 2.5rem; position: relative; margin-top: 3rem; }
+    .tl-item { position: relative; }
+    .tl-item::before { content: ''; position: absolute; left: -2.9rem; top: 0.2rem; width: 14px; height: 14px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 10px rgba(245, 160, 51, 0.5); }
+    .tl-date { color: var(--amber); font-size: 0.75rem; letter-spacing: 0.15em; font-weight: 600; text-transform: uppercase; margin-bottom: 0.5rem; display: inline-block; }
+    .tl-title { font-family: var(--ff-display); font-size: 2.2rem; color: var(--cream); letter-spacing: 0.03em; margin-bottom: 0.3rem; }
+    .tl-org { font-size: 0.9rem; font-weight: 600; color: #fff; margin-bottom: 1rem; }
+    .tl-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.8; max-width: 650px; font-weight: 300; }
+    .tech-badges span { display: inline-block; padding: 0.3rem 0.8rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; margin-right: 0.5rem; margin-top: 1rem; color: var(--cream); transition: 0.3s; }
+    .tech-badges span:hover { border-color: var(--amber); color: var(--amber); }
+  </style>
 </head>
 <body>
 
-  <!-- CURSOR -->
   <div class="cursor" id="cursor"></div>
 
-  <!-- NAV -->
   <nav class="nav" id="mainNav">
     <a href="#" class="nav-logo">Theodorus<span>.</span>L</a>
     
     <ul class="nav-links" id="navLinks">
       <li><a href="#about">About</a></li>
-      <li><a href="#work">Work</a></li>
-      <li><a href="#services">Services</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#work">Projects</a></li>
+      <li><a href="#services">Tech Stack</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
     
     <a href="#contact" class="nav-cta hide-mobile">Hire Me</a>
 
-    <div class="menu-toggle" id="mobileMenuToggle">
+    <div class="menu-toggle" id="mobileMenuToggle" role="button" tabindex="0" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="navLinks">
       <ion-icon name="menu-outline"></ion-icon>
     </div>
   </nav>
 
-  <!-- HERO -->
   <section id="hero">
     <div class="hero-video-wrap">
       <video autoplay muted loop playsinline id="heroVideo">
@@ -46,8 +57,8 @@
       </video>
       <div class="fallback-bg" id="videoFallback">
         <div class="fallback-label">
-          <span>VISUAL ARTIST</span>
-          Ganti dengan video animasi Anda
+          <span>SOFTWARE ENGINEER</span>
+          Ganti dengan video background Anda
         </div>
       </div>
     </div>
@@ -56,22 +67,22 @@
     <div class="hero-overlay"></div>
 
     <div class="hero-content">
-      <p class="hero-eyebrow">Visual Storyteller</p>
+      <p class="hero-eyebrow">Backend Developer & AI Enthusiast</p>
       <h1 class="hero-title">
         Architecting<br>
         <em>
-          Solutions
-          <span class="typing" id="typingTarget" data-typing="Frontend Developer, UI Designer" aria-label="Frontend Developer, UI Designer" role="text"></span>
+          Solutions<br>
+          <span class="typing" id="typingTarget" data-typing="Backend Systems, Mobile Apps, Game Mechanics" aria-label="Backend Systems, Mobile Apps, Game Mechanics" role="text"></span>
         </em>
         <br>
         Through Code
       </h1>
       <p class="hero-sub">
-        Programmer Lulusan Sekolah SMK Strada Rajawali, mengabadikan momen dengan kejujuran dan nuansa yang mendalam.
+        Siswa Rekayasa Perangkat Lunak SMK Strada Jakarta. Mengubah logika kompleks menjadi ekosistem digital yang tangguh, aman, dan efisien.
       </p>
       <div class="hero-actions">
-        <a href="#work" class="btn-primary">View My Work</a>
-        <a href="#contact" class="btn-ghost">Get In Touch</a>
+        <a href="#work" class="btn-primary">View My Projects</a>
+        <a href="#experience" class="btn-ghost">My Journey</a>
       </div>
     </div>
 
@@ -79,184 +90,337 @@
     <div class="letterbox-bottom"></div>
   </section>
 
-  <!-- ABOUT -->
-<section id="about">
+  <section id="about">
     <div class="about-photo-wrap reveal-scale">
-      <div class="about-photo-placeholder">
-        <ion-icon name="person-outline"></ion-icon>
-        Foto Profil Anda
-      </div>
+      <div class="about-photo-placeholder" style="background-image: url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80'); background-size: cover; background-position: center;">
+        </div>
       <div class="about-frame"></div>
       <div class="about-badge reveal-left delay-2">
-        <strong>08+</strong>
-        Years of Experience
+        <strong>IT</strong>
+        Software Engineering
       </div>
     </div>
     
     <div class="about-text">
-  <p class="section-label">About Me</p>
-  <h2 class="section-title">Behind<br>The Lens</h2>
-  <p>
-    Saya adalah seorang visual storyteller dengan keahlian dalam fotografi dokumenter...
-  </p>
-  <p>
-    Dengan latar belakang di seni visual dan teknologi media, saya telah berkolaborasi...
-  </p>
+      <p class="section-label">01 // About Me</p>
+      <h2 class="section-title">Logika di Balik<br>Layar</h2>
+      <p>
+        Saya adalah seorang Software Developer tingkat akhir di SMK Strada Jakarta (berencana melanjutkan pendidikan ke BINUS Online), dengan fokus mendalam pada pengembangan backend dan eksplorasi kecerdasan buatan.
+      </p>
+      <p>
+        Memiliki pengalaman magang langsung di industri perangkat lunak, saya terbiasa memecahkan masalah sistematis, memelihara basis kode (*legacy code*), hingga merancang arsitektur database yang aman untuk aplikasi skala perusahaan.
+      </p>
       <div class="about-stats reveal">
         <div class="delay-1">
-          <div class="stat-num">120+</div>
-          <div class="stat-label">Projects</div>
+          <div class="stat-num">02</div>
+          <div class="stat-label">Internships</div>
         </div>
         <div class="delay-2">
-          <div class="stat-num">40+</div>
-          <div class="stat-label">Clients</div>
+          <div class="stat-num">10+</div>
+          <div class="stat-label">Projects Completed</div>
         </div>
         <div class="delay-3">
-          <div class="stat-num">12</div>
-          <div class="stat-label">Awards</div>
+          <div class="stat-num">04</div>
+          <div class="stat-label">Tech Stacks</div>
         </div>
       </div>
+      <a href="#" class="btn-primary reveal delay-3" onclick="alert('Dokumen CV sedang disiapkan.')" style="display: inline-block;">
+        <ion-icon name="document-text-outline" style="vertical-align: middle; margin-right: 5px; font-size: 1.2rem;"></ion-icon> 
+        Unduh Resume (PDF)
+      </a>
     </div>
   </section>
 
-  <!-- WORK / CAROUSEL -->
-  <section id="work" style="padding: 0;">
-    <div class="work-header">
-      <div>
-        <p class="section-label">Selected Works</p>
-        <h2 class="section-title">Portfolio</h2>
+  <section id="experience" style="background: var(--ink);">
+    <div style="max-width:1000px; margin:0 auto;">
+      <p class="section-label">02 // Perjalanan Profesional</p>
+      <h2 class="section-title">Pengalaman Magang</h2>
+      
+      <div class="timeline reveal delay-1">
+        
+        <div class="tl-item">
+          <span class="tl-date">Nov 2025 – Des 2025</span>
+          <h3 class="tl-title">Backend Developer Intern</h3>
+          <div class="tl-org">PT Rayterton Indonesia</div>
+          <p class="tl-desc">
+            Mengembangkan dan merestrukturisasi sistem backend aplikasi internal perusahaan secara spesifik menggunakan <strong>PHP Native</strong>. Bertanggung jawab dalam mengoptimalkan performa kueri database MySQL, memastikan keandalan operasional, serta menerapkan layer keamanan tambahan untuk melindungi data sensitif.
+          </p>
+          <div class="tech-badges">
+            <span>PHP Native</span> <span>MySQL</span> <span>Backend Architecture</span>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <span class="tl-date">Jul 2025 – Okt 2025</span>
+          <h3 class="tl-title">Backend Developer Intern</h3>
+          <div class="tl-org">PT Dama Integra Solusindo</div>
+          <p class="tl-desc">
+            Terlibat dalam siklus penuh (*full-cycle*) pengembangan backend web. Bertugas memelihara stabilitas basis kode warisan (*legacy code*) yang sudah berjalan, serta mengintegrasikan fitur-fitur baru ke dalam lingkungan produksi tanpa mengganggu sistem (*zero-downtime integration*).
+          </p>
+          <div class="tech-badges">
+            <span>PHP</span> <span>Database Management</span> <span>Legacy Code Maintenance</span>
+          </div>
+        </div>
+
       </div>
-      <p>Koleksi karya terpilih yang merepresentasikan perjalanan kreatif saya lintas berbagai medium.</p>
+    </div>
+  </section>
+
+  <section id="work" style="padding: 0;">
+    <div class="work-header" style="margin-top: 6rem;">
+      <div>
+        <p class="section-label">03 // Portofolio Pilihan</p>
+        <h2 class="section-title">Showcase Proyek</h2>
+      </div>
+      <p>Carousel baru ini saya buat sebagai galeri editorial yang fokus ke satu proyek unggulan per slide, dengan detail teknis yang lebih jelas dan navigasi yang lebih enak dipakai.</p>
     </div>
 
-    <div class="carousel-section">
-      <ul class="slider" id="mainSlider">
-        <li class="slider-item" style="background-image:url('https://cdn.mos.cms.futurecdn.net/dP3N4qnEZ4tCTCLq59iysd.jpg')">
-          <div class="slider-item-overlay"></div>
-          <div class="slider-content">
-            <p class="s-eyebrow">Series 01</p>
-            <h3 class="s-title">Lossless Youths</h3>
-            <p class="s-desc">Sebuah eksplorasi tentang masa muda yang terperangkap antara nostalgia dan ketidakpastian masa depan.</p>
-            <button class="s-btn">View Project</button>
-          </div>
-        </li>
-        <li class="slider-item" style="background-image:url('https://i.redd.it/tc0aqpv92pn21.jpg')">
-          <div class="slider-item-overlay"></div>
-          <div class="slider-content">
-            <p class="s-eyebrow">Series 02</p>
-            <h3 class="s-title">Estrange Bond</h3>
-            <p class="s-desc">Potret hubungan manusia yang terasa dekat sekaligus jauh di era hiperkonektivitas digital.</p>
-            <button class="s-btn">View Project</button>
-          </div>
-        </li>
-        <li class="slider-item" style="background-image:url('https://wharferj.files.wordpress.com/2015/11/bio_north.jpg')">
-          <div class="slider-item-overlay"></div>
-          <div class="slider-content">
-            <p class="s-eyebrow">Series 03</p>
-            <h3 class="s-title">The Gate Keeper</h3>
-            <p class="s-desc">Narasi visual tentang batas-batas yang kita ciptakan sendiri dan pintu yang selalu kita ragu untuk dilalui.</p>
-            <button class="s-btn">View Project</button>
-          </div>
-        </li>
-        <li class="slider-item" style="background-image:url('https://images7.alphacoders.com/878/878663.jpg')">
-          <div class="slider-item-overlay"></div>
-          <div class="slider-content">
-            <p class="s-eyebrow">Series 04</p>
-            <h3 class="s-title">Last Trace Of Us</h3>
-            <p class="s-desc">Dokumentasi jejak-jejak kehadiran manusia di ruang-ruang yang kini ditinggalkan dan dilupakan.</p>
-            <button class="s-btn">View Project</button>
-          </div>
-        </li>
-        <li class="slider-item" style="background-image:url('https://theawesomer.com/photos/2017/07/simon_stalenhag_the_electric_state_6.jpg')">
-          <div class="slider-item-overlay"></div>
-          <div class="slider-content">
-            <p class="s-eyebrow">Series 05</p>
-            <h3 class="s-title">Urban Decay</h3>
-            <p class="s-desc">Keindahan tersembunyi di balik reruntuhan kota: arsitektur yang lapuk namun menyimpan ribuan cerita.</p>
-            <button class="s-btn">View Project</button>
-          </div>
-        </li>
-        <li class="slider-item" style="background-image:url('https://da.se/app/uploads/2015/09/simon-december1994.jpg')">
-          <div class="slider-item-overlay"></div>
-          <div class="slider-content">
-            <p class="s-eyebrow">Series 06</p>
-            <h3 class="s-title">The Migration</h3>
-            <p class="s-desc">Kisah perpindahan dan pencarian rumah baru — tentang apa yang kita bawa dan apa yang terpaksa kita tinggalkan.</p>
-            <button class="s-btn">View Project</button>
-          </div>
-        </li>
-      </ul>
+    <div class="portfolio-carousel reveal" id="portfolioCarousel" tabindex="0" aria-label="Carousel portofolio proyek">
+      <div class="portfolio-stage">
+        <div class="portfolio-track" id="mainSlider">
+          <article class="portfolio-slide is-active" style="--slide-accent:#F5A033;">
+            <div class="portfolio-media" style="background-image:url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80');"></div>
+            <div class="portfolio-content">
+              <p class="portfolio-kicker">01 // Backend Module</p>
+              <h3 class="portfolio-title">Warehouse Management</h3>
+              <p class="portfolio-desc">Modul ERP "Desaka Suite" dengan sistem inventarisasi kompleks, Role-Based Access, dan fokus pada stabilitas alur data di lapangan.</p>
+              <div class="portfolio-meta">
+                <div>
+                  <span>Stack</span>
+                  <strong>PHP Native + MySQL</strong>
+                </div>
+                <div>
+                  <span>Focus</span>
+                  <strong>RBAC & Inventory Flow</strong>
+                </div>
+                <div>
+                  <span>Impact</span>
+                  <strong>Data lebih aman</strong>
+                </div>
+              </div>
+              <div class="portfolio-actions">
+                <a href="#" class="portfolio-primary">Lihat Studi Kasus</a>
+                <a href="#" class="portfolio-secondary">Source Code</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="portfolio-slide" style="--slide-accent:#5AC8FA;">
+            <div class="portfolio-media" style="background-image:url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80');"></div>
+            <div class="portfolio-content">
+              <p class="portfolio-kicker">02 // Data Analytics</p>
+              <h3 class="portfolio-title">Attendance Dashboard</h3>
+              <p class="portfolio-desc">Platform presensi yang mengolah data real-time dan menampilkannya sebagai dashboard analitik yang cepat dibaca oleh admin maupun staf.</p>
+              <div class="portfolio-meta">
+                <div>
+                  <span>Stack</span>
+                  <strong>PHP + Chart.js</strong>
+                </div>
+                <div>
+                  <span>Focus</span>
+                  <strong>Realtime Analytics</strong>
+                </div>
+                <div>
+                  <span>Impact</span>
+                  <strong>Monitoring instan</strong>
+                </div>
+              </div>
+              <div class="portfolio-actions">
+                <a href="#" class="portfolio-primary">Lihat Studi Kasus</a>
+                <a href="#" class="portfolio-secondary">Source Code</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="portfolio-slide" style="--slide-accent:#8B7CFF;">
+            <div class="portfolio-media" style="background-image:url('https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80');"></div>
+            <div class="portfolio-content">
+              <p class="portfolio-kicker">03 // Mobile App</p>
+              <h3 class="portfolio-title">Cross-Platform Sync</h3>
+              <p class="portfolio-desc">Aplikasi tersentralisasi dengan sinkronisasi status perangkat secara real-time yang dibangun di atas Firebase dan React Native.</p>
+              <div class="portfolio-meta">
+                <div>
+                  <span>Stack</span>
+                  <strong>Firebase + React Native</strong>
+                </div>
+                <div>
+                  <span>Focus</span>
+                  <strong>Cross-device sync</strong>
+                </div>
+                <div>
+                  <span>Impact</span>
+                  <strong>Update seragam</strong>
+                </div>
+              </div>
+              <div class="portfolio-actions">
+                <a href="#" class="portfolio-primary">Lihat Studi Kasus</a>
+                <a href="#" class="portfolio-secondary">Source Code</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="portfolio-slide" style="--slide-accent:#FF8C6B;">
+            <div class="portfolio-media" style="background-image:url('https://images.unsplash.com/photo-1580234797602-22c37b4a6217?auto=format&fit=crop&q=80');"></div>
+            <div class="portfolio-content">
+              <p class="portfolio-kicker">04 // Game Development</p>
+              <h3 class="portfolio-title">3D Combat & AI</h3>
+              <p class="portfolio-desc">Eksplorasi state machine untuk musuh, stamina karakter, dan tempo combat dalam lingkungan 3D menggunakan C# di Unity Engine.</p>
+              <div class="portfolio-meta">
+                <div>
+                  <span>Stack</span>
+                  <strong>C# + Unity</strong>
+                </div>
+                <div>
+                  <span>Focus</span>
+                  <strong>AI state machine</strong>
+                </div>
+                <div>
+                  <span>Impact</span>
+                  <strong>Gameplay lebih hidup</strong>
+                </div>
+              </div>
+              <div class="portfolio-actions">
+                <a href="#" class="portfolio-primary">Lihat Studi Kasus</a>
+                <a href="#" class="portfolio-secondary">Source Code</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="portfolio-slide" style="--slide-accent:#43D9AD;">
+            <div class="portfolio-media" style="background-image:url('https://images.unsplash.com/photo-1555099962-4199c345e5dd?auto=format&fit=crop&q=80');"></div>
+            <div class="portfolio-content">
+              <p class="portfolio-kicker">05 // Web Interface</p>
+              <h3 class="portfolio-title">Interactive Portfolio</h3>
+              <p class="portfolio-desc">Antarmuka website yang dibangun dengan HTML, CSS, dan JavaScript vanilla, lalu dipoles dengan animasi GSAP untuk pengalaman yang lebih sinematik.</p>
+              <div class="portfolio-meta">
+                <div>
+                  <span>Stack</span>
+                  <strong>HTML + CSS + JS</strong>
+                </div>
+                <div>
+                  <span>Focus</span>
+                  <strong>Motion & Layout</strong>
+                </div>
+                <div>
+                  <span>Impact</span>
+                  <strong>Lebih berkesan</strong>
+                </div>
+              </div>
+              <div class="portfolio-actions">
+                <a href="#" class="portfolio-primary">Lihat Studi Kasus</a>
+                <a href="#" class="portfolio-secondary">Source Code</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="portfolio-slide" style="--slide-accent:#F5A033;">
+            <div class="portfolio-media" style="background-image:url('https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&q=80');"></div>
+            <div class="portfolio-content">
+              <p class="portfolio-kicker">06 // API Engineering</p>
+              <h3 class="portfolio-title">Secure REST Gateway</h3>
+              <p class="portfolio-desc">Perancangan API gateway dengan autentikasi token, rate limiting, dan dokumentasi yang rapi untuk integrasi antarlayanan yang aman.</p>
+              <div class="portfolio-meta">
+                <div>
+                  <span>Stack</span>
+                  <strong>JWT + REST API</strong>
+                </div>
+                <div>
+                  <span>Focus</span>
+                  <strong>Security Layer</strong>
+                </div>
+                <div>
+                  <span>Impact</span>
+                  <strong>Integrasi terjaga</strong>
+                </div>
+              </div>
+              <div class="portfolio-actions">
+                <a href="#" class="portfolio-primary">Lihat Studi Kasus</a>
+                <a href="#" class="portfolio-secondary">Source Code</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
 
       <nav class="carousel-nav">
-        <ion-icon class="c-btn" id="prevBtn" name="arrow-back-outline"></ion-icon>
-        <ion-icon class="c-btn" id="nextBtn" name="arrow-forward-outline"></ion-icon>
+        <button class="c-btn" id="prevBtn" type="button" aria-label="Proyek sebelumnya">
+          <ion-icon name="arrow-back-outline"></ion-icon>
+        </button>
+        <div class="carousel-counter" aria-live="polite">
+          <span id="carouselCurrent">01</span>
+          <span class="counter-sep">/</span>
+          <span id="carouselTotal">06</span>
+        </div>
+        <button class="c-btn" id="nextBtn" type="button" aria-label="Proyek berikutnya">
+          <ion-icon name="arrow-forward-outline"></ion-icon>
+        </button>
       </nav>
+
+      <div class="carousel-dots" id="carouselDots" role="tablist" aria-label="Pilih proyek"></div>
     </div>
   </section>
 
-  <!-- SERVICES -->
   <section id="services">
     <div style="max-width:1200px; margin:0 auto;">
-      <p class="section-label">What I Do</p>
-      <h2 class="section-title">Services</h2>
+      <p class="section-label">04 // Keahlian Teknis</p>
+      <h2 class="section-title">Tech Stack & Layanan</h2>
       <div class="services-grid reveal">
         <div class="service-card">
           <div class="service-num">01</div>
-          <div class="service-name">Photography</div>
-          <p class="service-desc">Potret editorial, dokumenter, dan komersial. Dari studio hingga lapangan, setiap frame dibingkai dengan intensi.</p>
+          <div class="service-name">Backend Development</div>
+          <p class="service-desc">Membangun arsitektur server yang andal menggunakan ekosistem PHP (Native & Framework seperti Laravel) serta manajemen dan optimasi kueri basis data MySQL.</p>
         </div>
         <div class="service-card">
           <div class="service-num">02</div>
-          <div class="service-name">Cinematography</div>
-          <p class="service-desc">Produksi video brand, short film, dan konten kreatif dengan standar sinematik yang tinggi dan alur cerita yang kuat.</p>
+          <div class="service-name">Frontend & UI</div>
+          <p class="service-desc">Menerjemahkan desain menjadi antarmuka web responsif menggunakan HTML, CSS (Tailwind/Bootstrap), dan JavaScript modern, dilengkapi micro-interactions GSAP.</p>
         </div>
         <div class="service-card" style="border-right:none;">
           <div class="service-num">03</div>
-          <div class="service-name">Post Production</div>
-          <p class="service-desc">Color grading, editing, dan retouching untuk mengangkat visual ke level berikutnya. Output siap publish atau tayangan layar lebar.</p>
+          <div class="service-name">Game & AI Logic</div>
+          <p class="service-desc">Eksplorasi logika algoritma cerdas, pemrosesan state machine musuh, dan mekanika permainan dinamis menggunakan bahasa pemrograman C# dalam Unity Engine.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- TESTIMONIAL -->
   <section id="testimonial">
     <p class="testimonial-text reveal">
-      "Kerja sama dengan Alex mengubah cara kami memandang brand kami sendiri. Setiap frame berbicara tanpa perlu kata-kata tambahan."
+      "Seorang developer muda dengan pemahaman solid tentang fundamental arsitektur software dan logika sistem yang sangat kuat."
     </p>
     <div class="testimonial-author reveal">
       <div class="author-avatar">
-        <ion-icon name="person-outline"></ion-icon>
+        <ion-icon name="code-slash-outline"></ion-icon>
       </div>
       <div>
-        <div class="author-name">Rani Kusuma</div>
-        <div class="author-role">Creative Director, Studio Aruna</div>
+        <div class="author-name">Senior Engineer Feedback</div>
+        <div class="author-role">Magang Industri 2025</div>
       </div>
     </div>
   </section>
 
-  <!-- CONTACT -->
   <section id="contact">
     <div class="contact-inner">
       <div class="contact-left reveal">
-        <p class="section-label">Contact</p>
-        <h2 class="section-title">Let's Create<br>Together</h2>
-        <p>Punya proyek di kepala? Mari kita bicarakan. Saya terbuka untuk kolaborasi kreatif, commission, maupun lisensi karya.</p>
+        <p class="section-label">05 // Contact</p>
+        <h2 class="section-title">Mari Berkolaborasi</h2>
+        <p>Terbuka untuk diskusi teknis, tawaran pekerjaan (*full-time* atau *freelance*), atau peluang kolaborasi pengembangan perangkat lunak.</p>
+        
         <a href="mailto:theod2685@gmail.com" class="contact-info-item">
           <ion-icon name="mail-outline"></ion-icon>
           theod2685@gmail.com
         </a>
-        <a href="tel:+6285711866883" class="contact-info-item">
-          <ion-icon name="call-outline"></ion-icon>
+        <a href="https://wa.me/6285711866883" target="_blank" rel="noopener" class="contact-info-item">
+          <ion-icon name="logo-whatsapp"></ion-icon>
           +62 857 1186 6883
         </a>
-        <a href="#" class="contact-info-item">
+        <a href="#" class="contact-info-item" style="cursor: default;">
           <ion-icon name="location-outline"></ion-icon>
           Jakarta, Indonesia
         </a>
-        <a href="#" class="contact-info-item">
-          <ion-icon name="logo-instagram"></ion-icon>
-          @alexk.visual
+        <a href="https://github.com/Phynax" target="_blank" class="contact-info-item">
+          <ion-icon name="logo-github"></ion-icon>
+          GitHub Profile
         </a>
       </div>
 
@@ -264,18 +428,18 @@
         <form class="contact-form" id="contactForm">
           <div class="form-row">
             <div class="form-group">
-              <label for="fname">Nama</label>
+              <label for="fname">Nama Lengkap</label>
               <input type="text" id="fname" placeholder="Nama Anda" required />
             </div>
             <div class="form-group">
               <label for="femail">Email</label>
-              <input type="email" id="femail" placeholder="email@anda.com" required />
+              <input type="email" id="femail" placeholder="email@perusahaan.com" required />
             </div>
           </div>
          
           <div class="form-group">
-            <label for="fmsg">Pesan</label>
-            <textarea id="fmsg" placeholder="Ceritakan proyek Anda..." required></textarea>
+            <label for="fmsg">Pesan / Diskusi Proyek</label>
+            <textarea id="fmsg" placeholder="Ceritakan detail proyek atau penawaran Anda..." required></textarea>
           </div>
           <button type="submit" class="form-submit">Kirim Pesan →</button>
         </form>
@@ -283,19 +447,16 @@
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer>
-    <a href="#" class="footer-logo">Theodorus<span>.</span>K</a>
-    <span class="footer-copy">© 2025 Theodorus L. All rights reserved.</span>
+    <a href="#" class="footer-logo">Theodorus<span>.</span>L</a>
+    <span class="footer-copy">© 2026 Theodorus Leander. All rights reserved.</span>
     <div class="footer-socials">
-      <a href="#"><ion-icon name="logo-instagram"></ion-icon></a>
-      <a href="#"><ion-icon name="logo-behance"></ion-icon></a>
-      <a href="#"><ion-icon name="logo-linkedin"></ion-icon></a>
-      <a href="#"><ion-icon name="logo-youtube"></ion-icon></a>
+      <a href="https://github.com/Phynax"><ion-icon name="logo-github"></ion-icon></a>
+      <a href="https://www.linkedin.com/in/theo-dorus-69a963332/"><ion-icon name="logo-linkedin"></ion-icon></a>
+      <a href="https://www.instagram.com/dorus820/"><ion-icon name="logo-instagram"></ion-icon></a>
     </div>
   </footer>
 
-  <!-- JS diletakkan sebelum </body> agar DOM sudah siap -->
   <script src="script.js"></script>
 </body>
 </html>
