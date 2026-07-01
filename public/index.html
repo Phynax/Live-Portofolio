@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Portfolio — Visual Storyteller</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <!-- GSAP & ScrollTrigger untuk animasi scroll -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+<body>
+
+  <!-- CURSOR -->
+  <div class="cursor" id="cursor"></div>
+
+  <!-- NAV -->
+  <nav class="nav" id="mainNav">
+    <a href="#" class="nav-logo">Theodorus<span>.</span>L</a>
+    
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    
+    <a href="#contact" class="nav-cta hide-mobile">Hire Me</a>
+
+    <div class="menu-toggle" id="mobileMenuToggle">
+      <ion-icon name="menu-outline"></ion-icon>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-video-wrap">
+      <video autoplay muted loop playsinline id="heroVideo">
+        <source src="/assets/videos/Background.mp4" type="video/mp4"/>
+      </video>
+      <div class="fallback-bg" id="videoFallback">
+        <div class="fallback-label">
+          <span>VISUAL ARTIST</span>
+          Ganti dengan video animasi Anda
+        </div>
+      </div>
+    </div>
+
+    <div class="letterbox-top"></div>
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+      <p class="hero-eyebrow">Visual Storyteller</p>
+      <h1 class="hero-title">
+        Architecting<br>
+        <em>
+          Solutions
+          <span class="typing" id="typingTarget" data-typing="Frontend Developer, UI Designer" aria-label="Frontend Developer, UI Designer" role="text"></span>
+        </em>
+        <br>
+        Through Code
+      </h1>
+      <p class="hero-sub">
+        Programmer Lulusan Sekolah SMK Strada Rajawali, mengabadikan momen dengan kejujuran dan nuansa yang mendalam.
+      </p>
+      <div class="hero-actions">
+        <a href="#work" class="btn-primary">View My Work</a>
+        <a href="#contact" class="btn-ghost">Get In Touch</a>
+      </div>
+    </div>
+
+    <div class="hero-scroll">Scroll</div>
+    <div class="letterbox-bottom"></div>
+  </section>
+
+  <!-- ABOUT -->
+<section id="about">
+    <div class="about-photo-wrap reveal-scale">
+      <div class="about-photo-placeholder">
+        <ion-icon name="person-outline"></ion-icon>
+        Foto Profil Anda
+      </div>
+      <div class="about-frame"></div>
+      <div class="about-badge reveal-left delay-2">
+        <strong>08+</strong>
+        Years of Experience
+      </div>
+    </div>
+    
+    <div class="about-text">
+  <p class="section-label">About Me</p>
+  <h2 class="section-title">Behind<br>The Lens</h2>
+  <p>
+    Saya adalah seorang visual storyteller dengan keahlian dalam fotografi dokumenter...
+  </p>
+  <p>
+    Dengan latar belakang di seni visual dan teknologi media, saya telah berkolaborasi...
+  </p>
+      <div class="about-stats reveal">
+        <div class="delay-1">
+          <div class="stat-num">120+</div>
+          <div class="stat-label">Projects</div>
+        </div>
+        <div class="delay-2">
+          <div class="stat-num">40+</div>
+          <div class="stat-label">Clients</div>
+        </div>
+        <div class="delay-3">
+          <div class="stat-num">12</div>
+          <div class="stat-label">Awards</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK / CAROUSEL -->
+  <section id="work" style="padding: 0;">
+    <div class="work-header">
+      <div>
+        <p class="section-label">Selected Works</p>
+        <h2 class="section-title">Portfolio</h2>
+      </div>
+      <p>Koleksi karya terpilih yang merepresentasikan perjalanan kreatif saya lintas berbagai medium.</p>
+    </div>
+
+    <div class="carousel-section">
+      <ul class="slider" id="mainSlider">
+        <li class="slider-item" style="background-image:url('https://cdn.mos.cms.futurecdn.net/dP3N4qnEZ4tCTCLq59iysd.jpg')">
+          <div class="slider-item-overlay"></div>
+          <div class="slider-content">
+            <p class="s-eyebrow">Series 01</p>
+            <h3 class="s-title">Lossless Youths</h3>
+            <p class="s-desc">Sebuah eksplorasi tentang masa muda yang terperangkap antara nostalgia dan ketidakpastian masa depan.</p>
+            <button class="s-btn">View Project</button>
+          </div>
+        </li>
+        <li class="slider-item" style="background-image:url('https://i.redd.it/tc0aqpv92pn21.jpg')">
+          <div class="slider-item-overlay"></div>
+          <div class="slider-content">
+            <p class="s-eyebrow">Series 02</p>
+            <h3 class="s-title">Estrange Bond</h3>
+            <p class="s-desc">Potret hubungan manusia yang terasa dekat sekaligus jauh di era hiperkonektivitas digital.</p>
+            <button class="s-btn">View Project</button>
+          </div>
+        </li>
+        <li class="slider-item" style="background-image:url('https://wharferj.files.wordpress.com/2015/11/bio_north.jpg')">
+          <div class="slider-item-overlay"></div>
+          <div class="slider-content">
+            <p class="s-eyebrow">Series 03</p>
+            <h3 class="s-title">The Gate Keeper</h3>
+            <p class="s-desc">Narasi visual tentang batas-batas yang kita ciptakan sendiri dan pintu yang selalu kita ragu untuk dilalui.</p>
+            <button class="s-btn">View Project</button>
+          </div>
+        </li>
+        <li class="slider-item" style="background-image:url('https://images7.alphacoders.com/878/878663.jpg')">
+          <div class="slider-item-overlay"></div>
+          <div class="slider-content">
+            <p class="s-eyebrow">Series 04</p>
+            <h3 class="s-title">Last Trace Of Us</h3>
+            <p class="s-desc">Dokumentasi jejak-jejak kehadiran manusia di ruang-ruang yang kini ditinggalkan dan dilupakan.</p>
+            <button class="s-btn">View Project</button>
+          </div>
+        </li>
+        <li class="slider-item" style="background-image:url('https://theawesomer.com/photos/2017/07/simon_stalenhag_the_electric_state_6.jpg')">
+          <div class="slider-item-overlay"></div>
+          <div class="slider-content">
+            <p class="s-eyebrow">Series 05</p>
+            <h3 class="s-title">Urban Decay</h3>
+            <p class="s-desc">Keindahan tersembunyi di balik reruntuhan kota: arsitektur yang lapuk namun menyimpan ribuan cerita.</p>
+            <button class="s-btn">View Project</button>
+          </div>
+        </li>
+        <li class="slider-item" style="background-image:url('https://da.se/app/uploads/2015/09/simon-december1994.jpg')">
+          <div class="slider-item-overlay"></div>
+          <div class="slider-content">
+            <p class="s-eyebrow">Series 06</p>
+            <h3 class="s-title">The Migration</h3>
+            <p class="s-desc">Kisah perpindahan dan pencarian rumah baru — tentang apa yang kita bawa dan apa yang terpaksa kita tinggalkan.</p>
+            <button class="s-btn">View Project</button>
+          </div>
+        </li>
+      </ul>
+
+      <nav class="carousel-nav">
+        <ion-icon class="c-btn" id="prevBtn" name="arrow-back-outline"></ion-icon>
+        <ion-icon class="c-btn" id="nextBtn" name="arrow-forward-outline"></ion-icon>
+      </nav>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div style="max-width:1200px; margin:0 auto;">
+      <p class="section-label">What I Do</p>
+      <h2 class="section-title">Services</h2>
+      <div class="services-grid reveal">
+        <div class="service-card">
+          <div class="service-num">01</div>
+          <div class="service-name">Photography</div>
+          <p class="service-desc">Potret editorial, dokumenter, dan komersial. Dari studio hingga lapangan, setiap frame dibingkai dengan intensi.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-num">02</div>
+          <div class="service-name">Cinematography</div>
+          <p class="service-desc">Produksi video brand, short film, dan konten kreatif dengan standar sinematik yang tinggi dan alur cerita yang kuat.</p>
+        </div>
+        <div class="service-card" style="border-right:none;">
+          <div class="service-num">03</div>
+          <div class="service-name">Post Production</div>
+          <p class="service-desc">Color grading, editing, dan retouching untuk mengangkat visual ke level berikutnya. Output siap publish atau tayangan layar lebar.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIAL -->
+  <section id="testimonial">
+    <p class="testimonial-text reveal">
+      "Kerja sama dengan Alex mengubah cara kami memandang brand kami sendiri. Setiap frame berbicara tanpa perlu kata-kata tambahan."
+    </p>
+    <div class="testimonial-author reveal">
+      <div class="author-avatar">
+        <ion-icon name="person-outline"></ion-icon>
+      </div>
+      <div>
+        <div class="author-name">Rani Kusuma</div>
+        <div class="author-role">Creative Director, Studio Aruna</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-inner">
+      <div class="contact-left reveal">
+        <p class="section-label">Contact</p>
+        <h2 class="section-title">Let's Create<br>Together</h2>
+        <p>Punya proyek di kepala? Mari kita bicarakan. Saya terbuka untuk kolaborasi kreatif, commission, maupun lisensi karya.</p>
+        <a href="mailto:theod2685@gmail.com" class="contact-info-item">
+          <ion-icon name="mail-outline"></ion-icon>
+          theod2685@gmail.com
+        </a>
+        <a href="tel:+6285711866883" class="contact-info-item">
+          <ion-icon name="call-outline"></ion-icon>
+          +62 857 1186 6883
+        </a>
+        <a href="#" class="contact-info-item">
+          <ion-icon name="location-outline"></ion-icon>
+          Jakarta, Indonesia
+        </a>
+        <a href="#" class="contact-info-item">
+          <ion-icon name="logo-instagram"></ion-icon>
+          @alexk.visual
+        </a>
+      </div>
+
+      <div class="reveal">
+        <form class="contact-form" id="contactForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fname">Nama</label>
+              <input type="text" id="fname" placeholder="Nama Anda" required />
+            </div>
+            <div class="form-group">
+              <label for="femail">Email</label>
+              <input type="email" id="femail" placeholder="email@anda.com" required />
+            </div>
+          </div>
+         
+          <div class="form-group">
+            <label for="fmsg">Pesan</label>
+            <textarea id="fmsg" placeholder="Ceritakan proyek Anda..." required></textarea>
+          </div>
+          <button type="submit" class="form-submit">Kirim Pesan →</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <a href="#" class="footer-logo">Theodorus<span>.</span>K</a>
+    <span class="footer-copy">© 2025 Theodorus L. All rights reserved.</span>
+    <div class="footer-socials">
+      <a href="#"><ion-icon name="logo-instagram"></ion-icon></a>
+      <a href="#"><ion-icon name="logo-behance"></ion-icon></a>
+      <a href="#"><ion-icon name="logo-linkedin"></ion-icon></a>
+      <a href="#"><ion-icon name="logo-youtube"></ion-icon></a>
+    </div>
+  </footer>
+
+  <!-- JS diletakkan sebelum </body> agar DOM sudah siap -->
+  <script src="script.js"></script>
+</body>
+</html>

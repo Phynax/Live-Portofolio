@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Animated Scroll Portfolio</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Canva Sans", Arial, Helvetica, sans-serif;
+}
+
+.wrapper {
+    position: relative;
+}
+
+svg {
+    display: block;
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    z-index: 3;
+    top: 0;
+    left: 0;
+}
+
+.scrollElement {
+    position: absolute;
+    height: 6000px;
+    width: 100%;
+    top: 0;
+    z-index: 4;
+}
+
+.btn {
+    position: fixed;
+    bottom: 5%;
+    right: 0px;
+    transform: translateX(-50%);
+    border: 1px solid #fff;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    padding: 0.5rem 0.7em;
+    background-color: transparent;
+    color: #ffffff;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    cursor: pointer;
+    transition: all .3s;
+    z-index: 11;
+}
+
+.btn_works {
+    left: 100px;
+    right: unset;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background: #ffffff;
+    color: #1B1734;
+}
+
+/* MARK: ---0-490 Mobile */
+@media (max-width: 490px) {
+    #text,
+    #arrow {
+        transform-origin: 50% 50%;
+        transform: translateY(-120px) scale(0.8);
+    }
+
+    #info2 {
+        transform-origin: 50% 50%;
+        transform: translateY(-120px) scale(0.8);
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+<svg class="parallax" viewBox="0 0 750 500" preserveAspectRatio="xMidYMax slice">
+  <!-- Elemen Video Background -->
+  <div class="video-wrapper">
+    <!-- 
+      Ubah bagian src="URL_VIDEO_ANDA" dengan link video Anda.
+      Format terbaik: .mp4 atau .webm (ukuran kecil, durasi < 15 detik).
+      Contoh pemakaian file lokal: src="assets/video-background.mp4" 
+    -->
+    <video autoplay loop muted playsinline>
+      <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-technology-network-connections-background-31720-large.mp4" type="video/mp4">
+    </video>
+    <!-- Overlay agar video memudar di bagian bawah -->
+    <div class="video-overlay"></div>
+  </div>
+
+  <div class="bg-grid"></div>
+  <div class="container">
+    <div class="hero-content reveal">
+      <div class="status-badge">
+        <div class="status-dot"></div> Tersedia untuk peluang baru
+      </div>
+      <h1 class="hero-title">Membangun perangkat lunak yang tangguh & sistematis.</h1>
+      <p class="hero-desc">Saya <strong>Theodorus Leander</strong>, seorang Software Developer yang berfokus pada pengembangan backend, aplikasi mobile, dan fundamental kecerdasan buatan.</p>
+      
+      <div class="btn-group">
+        <a href="#projects" class="btn btn-primary"><i class="ph ph-code"></i> Lihat Proyek</a>
+        <a href="#contact" class="btn btn-secondary"><i class="ph ph-envelope-simple"></i> Hubungi Saya</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-label">01 // TENTANG SAYA</span>
+      <h2 class="section-title">Rekayasa Perangkat Lunak</h2>
+      <p class="section-desc">Siswa tingkat akhir di SMK Strada Jakarta, bersiap untuk melanjutkan studi ke BINUS University. Saya memiliki minat besar dalam memecahkan masalah logika dan merancang arsitektur sistem.</p>
+    </div>
+
+    <div class="bento-grid reveal">
+      <div class="bento-card">
+        <i class="ph ph-browsers bento-icon"></i>
+        <h3>Web Development</h3>
+        <p>Pengembangan aplikasi berbasis web yang scalable menggunakan ekosistem PHP modern (Laravel, CodeIgniter).</p>
+      </div>
+      <div class="bento-card">
+        <i class="ph ph-device-mobile bento-icon"></i>
+        <h3>Mobile Architecture</h3>
+        <p>Pembuatan aplikasi lintas platform dengan React Native dan integrasi backend real-time Firebase.</p>
+      </div>
+      <div class="bento-card">
+        <i class="ph ph-cpu bento-icon"></i>
+        <h3>Machine Learning</h3>
+        <p>Eksplorasi fundamental algoritma cerdas dan implementasi skrip pemrosesan data dengan Python.</p>
+      </div>
+      <div class="bento-card">
+        <i class="ph ph-game-controller bento-icon"></i>
+        <h3>Game Mechanics</h3>
+        <p>Perancangan logika interaktif dan kecerdasan buatan (AI) musuh menggunakan C# dan Unity Engine.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-label">02 // TEKNOLOGI</span>
+      <h2 class="section-title">Tech Stack</h2>
+    </div>
+
+    <div class="skills-wrapper reveal">
+      <div class="skill-row">
+        <div class="skill-category">Backend & DB</div>
+        <div class="skill-list">
+          <span class="skill-tag">PHP</span>
+          <span class="skill-tag">Laravel</span>
+          <span class="skill-tag">CodeIgniter</span>
+          <span class="skill-tag">MySQL</span>
+        </div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-category">Frontend</div>
+        <div class="skill-list">
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">HTML/CSS</span>
+          <span class="skill-tag">Tailwind/Bootstrap</span>
+        </div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-category">Mobile & Cloud</div>
+        <div class="skill-list">
+          <span class="skill-tag">React Native</span>
+          <span class="skill-tag">Firebase</span>
+        </div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-category">Lainnya</div>
+        <div class="skill-list">
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">C# / Unity</span>
+          <span class="skill-tag">Git</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-label">03 // PERJALANAN</span>
+      <h2 class="section-title">Pengalaman Profesional</h2>
+    </div>
+
+    <div class="timeline reveal">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">Nov 2025 – Des 2025</div>
+        <h3 class="tl-title">Backend Developer Intern</h3>
+        <div class="tl-org">PT Rayterton</div>
+        <p class="tl-desc">Melanjutkan pengembangan sistem backend dengan fokus pada keandalan operasional, optimasi kueri database, serta pengetatan keamanan data untuk aplikasi internal perusahaan.</p>
+      </div>
+      
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">Jul 2025 – Okt 2025</div>
+        <h3 class="tl-title">Backend Developer Intern</h3>
+        <div class="tl-org">PT Dama Integra Solusindo</div>
+        <p class="tl-desc">Mengembangkan fitur backend menggunakan PHP Native. Bertanggung jawab dalam pemeliharaan basis kode warisan (legacy code) dan integrasi arsitektur sistem baru ke lingkungan produksi.</p>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">2023 – Sekarang</div>
+        <h3 class="tl-title">Siswa Rekayasa Perangkat Lunak</h3>
+        <div class="tl-org">SMK Strada Jakarta</div>
+        <p class="tl-desc">Mendalami paradigma pemrograman berorientasi objek (OOP), basis data relasional, dan metodologi pengembangan perangkat lunak modern.</p>
+      </div>
+    </div>
+    
+    <div class="reveal" style="margin-top: 3rem;">
+      <a href="#" class="btn btn-secondary" onclick="alert('Dokumen CV sedang disiapkan.')"><i class="ph ph-download-simple"></i> Unduh Resume PDF</a>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-label">04 // PORTOFOLIO</span>
+      <h2 class="section-title">Proyek Pilihan</h2>
+    </div>
+
+    <div class="projects-grid reveal">
+      
+      <div class="proj-card">
+        <div class="proj-img"><i class="ph ph-package"></i></div>
+        <div class="proj-content">
+          <h3 class="proj-title">Warehouse Management</h3>
+          <p class="proj-desc">Sistem inventarisasi barang kompleks dengan konversi satuan dan fitur Role-Based Access (Hide Price) untuk keamanan data finansial.</p>
+          <div class="proj-tech">
+            <span>PHP</span> <span>MySQL</span> <span>Bootstrap</span>
+          </div>
+          <div class="proj-links">
+            <a href="#"><i class="ph ph-github-logo"></i> Repository</a>
+            <a href="#"><i class="ph ph-arrow-up-right"></i> Live Demo</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-img"><i class="ph ph-chart-bar"></i></div>
+        <div class="proj-content">
+          <h3 class="proj-title">School Attendance Analytics</h3>
+          <p class="proj-desc">Platform presensi dengan pemrosesan data real-time, menampilkan dashboard analitik komprehensif menggunakan pustaka visualisasi data.</p>
+          <div class="proj-tech">
+            <span>PHP</span> <span>Chart.js</span> <span>MySQL</span>
+          </div>
+          <div class="proj-links">
+            <a href="#"><i class="ph ph-github-logo"></i> Repository</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-img"><i class="ph ph-device-mobile"></i></div>
+        <div class="proj-content">
+          <h3 class="proj-title">Cross-platform Mobile App</h3>
+          <p class="proj-desc">Aplikasi otentikasi tersentralisasi dan sinkronisasi status perangkat secara real-time mengandalkan arsitektur cloud NoSQL.</p>
+          <div class="proj-tech">
+            <span>React Native</span> <span>Firebase</span>
+          </div>
+          <div class="proj-links">
+            <a href="#"><i class="ph ph-github-logo"></i> Repository</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-img"><i class="ph ph-sword"></i></div>
+        <div class="proj-content">
+          <h3 class="proj-title">3D Combat Mechanics</h3>
+          <p class="proj-desc">Eksplorasi state machine untuk AI musuh, pengaturan fisika tabrakan, dan alur pertempuran bos interaktif dalam lingkungan 3D.</p>
+          <div class="proj-tech">
+            <span>Unity</span> <span>C#</span>
+          </div>
+          <div class="proj-links">
+            <a href="#"><i class="ph ph-github-logo"></i> Source Code</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-label">05 // KONTAK</span>
+      <h2 class="section-title">Mari Berkolaborasi</h2>
+    </div>
+
+    <div class="contact-container reveal">
+      <div class="contact-info">
+        <p style="color: var(--text-muted); margin-bottom: 1rem; line-height: 1.6;">
+          Terbuka untuk diskusi teknis, tawaran magang, atau peluang kolaborasi dalam pengembangan perangkat lunak.
+        </p>
+        
+        <div class="contact-item">
+          <i class="ph ph-envelope-simple"></i>
+          <div>
+            <span class="c-label">Email</span>
+            <a href="mailto:theodorus@email.com" class="c-value">theodorus@email.com</a>
+          </div>
+        </div>
+        
+        <div class="contact-item">
+          <i class="ph ph-map-pin"></i>
+          <div>
+            <span class="c-label">Lokasi</span>
+            <span class="c-value" style="text-decoration:none; cursor:default;">Jakarta, Indonesia</span>
+          </div>
+        </div>
+        
+        <div class="contact-item">
+          <i class="ph ph-github-logo"></i>
+          <div>
+            <span class="c-label">GitHub</span>
+            <a href="https://github.com/theodorus-leander" target="_blank" class="c-value">@theodorus-leander</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form">
+        <div class="form-group">
+          <label>Nama Lengkap</label>
+          <input type="text" id="c-name" class="form-input" placeholder="John Doe">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="c-email" class="form-input" placeholder="john@company.com">
+        </div>
+        <div class="form-group">
+          <label>Pesan</label>
+          <textarea id="c-msg" class="form-input" placeholder="Ceritakan detail diskusi Anda..."></textarea>
+        </div>
+        <button class="btn btn-primary" onclick="sendMessage()" style="width: 100%; justify-content: center;">
+          Kirim Pesan <i class="ph ph-paper-plane-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-inner">
+    <div class="footer-text">
+      &copy; 2026 Theodorus Leander.
+    </div>
+    <div class="social-links">
+      <a href="#" aria-label="GitHub"><i class="ph ph-github-logo"></i></a>
+      <a href="#" aria-label="LinkedIn"><i class="ph ph-linkedin-logo"></i></a>
+      <a href="#" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Navigasi Mobile
+  function toggleNav() {
+    const nav = document.getElementById('nav-links');
+    if (window.innerWidth <= 800) {
+      nav.classList.toggle('open');
+    }
+  }
+
+  // Animasi Scroll (Reveal)
+  function reveal() {
+    var reveals = document.querySelectorAll(".reveal");
+    for (var i = 0; i < reveals.length; i++) {
+      var windowHeight = window.innerHeight;
+      var elementTop = reveals[i].getBoundingClientRect().top;
+      var elementVisible = 100;
+      if (elementTop < windowHeight - elementVisible) {
+        reveals[i].classList.add("active");
+      }
+    }
+  }
+  window.addEventListener("scroll", reveal);
+  reveal(); // Jalankan sekali saat dimuat
+
+  // Simulasi Form Kontak
+  function sendMessage() {
+    const name = document.getElementById('c-name').value;
+    const email = document.getElementById('c-email').value;
+    if(!name || !email) {
+      alert("Mohon isi nama dan email Anda.");
+      return;
+    }
+    alert("Pesan terkirim. Terima kasih, " + name + "!");
+    document.getElementById('c-name').value = '';
+    document.getElementById('c-email').value = '';
+    document.getElementById('c-msg').value = '';
+  }
+</script>
+
+</body>
+</html>
