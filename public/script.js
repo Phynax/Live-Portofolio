@@ -126,168 +126,26 @@ if (typingTarget) {
   }
 }
 
-/* ── PORTFOLIO GALLERY (SPOTLIGHT CAROUSEL) ──────────────────
-   Carousel baru: satu proyek besar tampil penuh ("spotlight"),
-   dinavigasi lewat panah, thumbnail strip, keyboard, dan drag/swipe.
-   Progress bar bergaya "stories" menggerakkan autoplay lewat event
-   animationend, jadi hanya ada satu sumber waktu (bukan interval
-   terpisah yang bisa desync dari progress bar). ───────────────── */
-const gallery = document.getElementById('portfolioGallery');
-const galleryStage = document.getElementById('galleryStage');
-const galleryTrack = document.getElementById('galleryTrack');
-const galleryPrev = document.getElementById('galleryPrev');
-const galleryNext = document.getElementById('galleryNext');
-const galleryProgress = document.getElementById('galleryProgress');
-const galleryThumbs = document.getElementById('galleryThumbs');
-const galleryCounter = document.getElementById('galleryCounter');
+/* ── NEW CAROUSEL LOGIC (STACKED) ───────────────────────────── */
+const slider = document.querySelector('.slider');
+const navButtons = document.querySelectorAll('.carousel-nav .btn');
 
-if (gallery && galleryStage && galleryTrack && galleryPrev && galleryNext) {
-  const cards = Array.from(galleryTrack.querySelectorAll('.gallery-card'));
-  const total = cards.length;
-  let current = 0;
-  let pointerDown = false;
-  let pointerStartX = 0;
-  let autoplayTimer = null;
-  const autoplayDelay = 6000;
-
-  galleryTrack.style.setProperty('--count', String(total));
-
-  // Bangun segmen progress bar (gaya "stories")
-  const segments = cards.map(() => {
-    const seg = document.createElement('div');
-    seg.className = 'progress-seg';
-    const fill = document.createElement('span');
-    fill.className = 'progress-fill';
-    seg.appendChild(fill);
-    galleryProgress.appendChild(seg);
-    return seg;
-  });
-
-  // Bangun thumbnail strip dari gambar & judul tiap kartu
-  const thumbs = cards.map((card, i) => {
-    const media = card.querySelector('.gallery-card-media');
-    const titleEl = card.querySelector('.s-title');
-    const thumb = document.createElement('button');
-    thumb.type = 'button';
-    thumb.className = 'gallery-thumb';
-    thumb.style.backgroundImage = media ? media.style.backgroundImage : '';
-    thumb.setAttribute('role', 'tab');
-    thumb.setAttribute('data-label', String(i + 1).padStart(2, '0'));
-    thumb.setAttribute('aria-label', titleEl ? `Lihat proyek ${titleEl.textContent}` : `Proyek ${i + 1}`);
-    galleryThumbs.appendChild(thumb);
-    return thumb;
-  });
-
-  // Memaksa animasi CSS progress bar untuk restart dari 0%
-  const restartSegmentFill = (seg) => {
-    const fill = seg.querySelector('.progress-fill');
-    fill.style.animation = 'none';
-    void fill.offsetWidth; // force reflow
-    fill.style.animation = '';
-    seg.classList.add('is-current');
-  };
-
-  const render = () => {
-    galleryTrack.style.transform = `translateX(-${current * (100 / total)}%)`;
-
-    cards.forEach((card, i) => card.classList.toggle('is-active', i === current));
-    thumbs.forEach((thumb, i) => thumb.classList.toggle('is-active', i === current));
-
-    segments.forEach((seg, i) => {
-      seg.classList.remove('is-filled', 'is-current');
-      if (i < current) seg.classList.add('is-filled');
+if (slider && navButtons.length > 0) {
+  navButtons.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      // Ambil daftar item terbaru setiap kali diklik
+      const items = document.querySelectorAll('.slider .item');
+      
+      // Jika klik tombol next
+      if (e.target.closest('.next')) {
+        slider.append(items[0]); // Pindahkan item pertama ke urutan paling akhir
+      } 
+      // Jika klik tombol prev
+      else if (e.target.closest('.prev')) {
+        slider.prepend(items[items.length - 1]); // Pindahkan item terakhir ke paling awal
+      }
     });
-    restartSegmentFill(segments[current]);
-
-    if (galleryCounter) {
-      galleryCounter.textContent = `${String(current + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}`;
-    }
-  };
-
-  const goTo = (index) => {
-    current = ((index % total) + total) % total;
-    render();
-  };
-
-  const restartAutoplay = () => {
-    if (autoplayTimer) {
-      window.clearInterval(autoplayTimer);
-    }
-
-    autoplayTimer = window.setInterval(() => {
-      goTo(current + 1);
-    }, autoplayDelay);
-  };
-
-  const pauseAutoplay = () => {
-    gallery.classList.add('is-paused');
-    if (autoplayTimer) {
-      window.clearInterval(autoplayTimer);
-      autoplayTimer = null;
-    }
-  };
-
-  galleryNext.addEventListener('click', () => {
-    goTo(current + 1);
-    restartAutoplay();
   });
-  galleryPrev.addEventListener('click', () => {
-    goTo(current - 1);
-    restartAutoplay();
-  });
-
-  thumbs.forEach((thumb, i) => {
-    thumb.addEventListener('click', () => goTo(i));
-  });
-
-  // Autoplay berjalan terus setiap beberapa detik, tanpa tergantung hover.
-  restartAutoplay();
-
-  gallery.addEventListener('mouseenter', () => {
-    gallery.classList.add('is-hovered');
-  });
-
-  gallery.addEventListener('mouseleave', () => {
-    gallery.classList.remove('is-hovered');
-  });
-
-  gallery.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowRight') {
-      goTo(current + 1);
-      restartAutoplay();
-    } else if (e.key === 'ArrowLeft') {
-      goTo(current - 1);
-      restartAutoplay();
-    }
-  });
-
-  // Drag / swipe via Pointer Events (mencakup mouse & sentuhan sekaligus)
-  galleryStage.addEventListener('pointerdown', (e) => {
-    pointerDown = true;
-    pointerStartX = e.clientX;
-    pauseAutoplay();
-    galleryStage.setPointerCapture(e.pointerId);
-  });
-
-  galleryStage.addEventListener('pointerup', (e) => {
-    if (!pointerDown) return;
-    pointerDown = false;
-
-    const deltaX = e.clientX - pointerStartX;
-    const swipeThreshold = 50;
-
-    if (deltaX < -swipeThreshold) goTo(current + 1);
-    else if (deltaX > swipeThreshold) goTo(current - 1);
-
-    restartAutoplay();
-  });
-
-  galleryStage.addEventListener('pointercancel', () => {
-    pointerDown = false;
-    restartAutoplay();
-  });
-
-  render();
 }
 
 /* ── SCROLL REVEAL (UPDATE) ──────────────────────────────────
@@ -531,6 +389,8 @@ if (isDesktop) {
    Animasi scroll yang lebih ringan untuk mobile/tablet
 ──────────────────────────────────────────────────────────── */
 if (isMobile || isTablet) {
+  const badgeCounter = document.querySelector('.badge-counter');
+
   // About photo scale on scroll (ringan)
   gsap.fromTo(
     '.about-photo-placeholder',
@@ -547,39 +407,25 @@ if (isMobile || isTablet) {
     }
   );
 
-  // About title parallax mobile (lebih ringan)
-  gsap.fromTo(
-    '.about-title',
-    { y: 0 },
-    {
-      y: -40,
-      scrollTrigger: {
-        trigger: '#about',
-        start: 'top center',
-        end: 'center center',
-        scrub: 0.3,
-        markers: false
-      }
-    }
-  );
-
   // Badge counter animation mobile
-  gsap.fromTo(
-    '.badge-counter',
-    { innerHTML: 0, opacity: 0, scale: 0.5 },
-    {
-      innerHTML: 8,
-      opacity: 1,
-      scale: 1,
-      duration: 1.5,
-      snap: { innerHTML: 1 },
-      scrollTrigger: {
-        trigger: '.about-badge',
-        start: 'top 70%',
-        toggleActions: 'play none none none'
+  if (badgeCounter) {
+    gsap.fromTo(
+      badgeCounter,
+      { innerHTML: 0, opacity: 0, scale: 0.5 },
+      {
+        innerHTML: 8,
+        opacity: 1,
+        scale: 1,
+        duration: 1.5,
+        snap: { innerHTML: 1 },
+        scrollTrigger: {
+          trigger: '.about-badge',
+          start: 'top 70%',
+          toggleActions: 'play none none none'
+        }
       }
-    }
-  );
+    );
+  }
 
   // Badge glow mobile (lebih ringan)
   gsap.fromTo(
