@@ -25,4 +25,4 @@ Jika Anda ingin mengunduh dan menjalankan proyek ini di mesin lokal:
 
 1. **Clone repositori ini:**
    ```bash
-   git clone [https://github.com/username-anda/nama-repo-anda.git](https://github.com/username-anda/nama-repo-anda.git)
+   git clone https://github.com/Phynax/Live-Portofolio.git
