@@ -52,11 +52,18 @@ window.addEventListener('scroll', () => {
 ──────────────────────────────────────────────────────────── */
 const heroVideo = document.getElementById('heroVideo');
 const videoFallback = document.getElementById('videoFallback');
+const videoSource = heroVideo ? heroVideo.querySelector('source') : null;
 
-if (heroVideo && heroVideo.querySelector('source')) {
-  videoFallback.style.display = 'none';
-} else if (heroVideo) {
-  heroVideo.style.display = 'none';
+if (heroVideo && videoSource) {
+  heroVideo.load();
+}
+
+if (heroVideo && videoFallback) {
+  if (videoSource && videoSource.getAttribute('src')) {
+    videoFallback.style.display = 'none';
+  } else {
+    heroVideo.style.display = 'none';
+  }
 }
 
 /* ── HERO TYPING EFFECT ─────────────────────────────────────
@@ -140,6 +147,8 @@ if (gallery && galleryStage && galleryTrack && galleryPrev && galleryNext) {
   let current = 0;
   let pointerDown = false;
   let pointerStartX = 0;
+  let autoplayTimer = null;
+  const autoplayDelay = 6000;
 
   galleryTrack.style.setProperty('--count', String(total));
 
@@ -200,36 +209,56 @@ if (gallery && galleryStage && galleryTrack && galleryPrev && galleryNext) {
     render();
   };
 
-  galleryNext.addEventListener('click', () => goTo(current + 1));
-  galleryPrev.addEventListener('click', () => goTo(current - 1));
+  const restartAutoplay = () => {
+    if (autoplayTimer) {
+      window.clearInterval(autoplayTimer);
+    }
+
+    autoplayTimer = window.setInterval(() => {
+      goTo(current + 1);
+    }, autoplayDelay);
+  };
+
+  const pauseAutoplay = () => {
+    gallery.classList.add('is-paused');
+    if (autoplayTimer) {
+      window.clearInterval(autoplayTimer);
+      autoplayTimer = null;
+    }
+  };
+
+  galleryNext.addEventListener('click', () => {
+    goTo(current + 1);
+    restartAutoplay();
+  });
+  galleryPrev.addEventListener('click', () => {
+    goTo(current - 1);
+    restartAutoplay();
+  });
 
   thumbs.forEach((thumb, i) => {
     thumb.addEventListener('click', () => goTo(i));
   });
 
-  // Segmen progress selesai mengisi → lanjut otomatis ke proyek berikutnya
-  galleryProgress.addEventListener('animationend', (e) => {
-    if (e.target.classList.contains('progress-fill')) {
-      goTo(current + 1);
-    }
+  // Autoplay berjalan terus setiap beberapa detik, tanpa tergantung hover.
+  restartAutoplay();
+
+  gallery.addEventListener('mouseenter', () => {
+    gallery.classList.add('is-hovered');
   });
 
-  const pauseAutoplay = () => gallery.classList.add('is-paused');
-  const resumeAutoplay = () => {
-    if (!isMobile) gallery.classList.remove('is-paused');
-  };
-
-  // Di mobile, autoplay dijeda permanen (navigasi tetap manual lewat tap/swipe)
-  if (isMobile) pauseAutoplay();
-
-  gallery.addEventListener('mouseenter', pauseAutoplay);
-  gallery.addEventListener('mouseleave', resumeAutoplay);
-  gallery.addEventListener('focusin', pauseAutoplay);
-  gallery.addEventListener('focusout', resumeAutoplay);
+  gallery.addEventListener('mouseleave', () => {
+    gallery.classList.remove('is-hovered');
+  });
 
   gallery.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowRight') goTo(current + 1);
-    else if (e.key === 'ArrowLeft') goTo(current - 1);
+    if (e.key === 'ArrowRight') {
+      goTo(current + 1);
+      restartAutoplay();
+    } else if (e.key === 'ArrowLeft') {
+      goTo(current - 1);
+      restartAutoplay();
+    }
   });
 
   // Drag / swipe via Pointer Events (mencakup mouse & sentuhan sekaligus)
@@ -250,12 +279,12 @@ if (gallery && galleryStage && galleryTrack && galleryPrev && galleryNext) {
     if (deltaX < -swipeThreshold) goTo(current + 1);
     else if (deltaX > swipeThreshold) goTo(current - 1);
 
-    resumeAutoplay();
+    restartAutoplay();
   });
 
   galleryStage.addEventListener('pointercancel', () => {
     pointerDown = false;
-    resumeAutoplay();
+    restartAutoplay();
   });
 
   render();
