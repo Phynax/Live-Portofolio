@@ -172,191 +172,94 @@
         <p class="section-label">03 // Portofolio Pilihan</p>
         <h2 class="section-title">Showcase Proyek</h2>
       </div>
-      <p>Carousel baru ini saya buat sebagai galeri editorial yang fokus ke satu proyek unggulan per slide, dengan detail teknis yang lebih jelas dan navigasi yang lebih enak dipakai.</p>
+      <p>Implementasi logika pemrograman dalam berbagai studi kasus, mulai dari sistem ERP internal hingga mekanika game 3D.</p>
     </div>
 
-    <div class="portfolio-carousel reveal" id="portfolioCarousel" tabindex="0" aria-label="Carousel portofolio proyek">
-      <div class="portfolio-stage">
-        <div class="portfolio-track" id="mainSlider">
-          <article class="portfolio-slide is-active" style="--slide-accent:#F5A033;">
-            <div class="portfolio-media" style="background-image:url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80');"></div>
-            <div class="portfolio-content">
-              <p class="portfolio-kicker">01 // Backend Module</p>
-              <h3 class="portfolio-title">Warehouse Management</h3>
-              <p class="portfolio-desc">Modul ERP "Desaka Suite" dengan sistem inventarisasi kompleks, Role-Based Access, dan fokus pada stabilitas alur data di lapangan.</p>
-              <div class="portfolio-meta">
-                <div>
-                  <span>Stack</span>
-                  <strong>PHP Native + MySQL</strong>
-                </div>
-                <div>
-                  <span>Focus</span>
-                  <strong>RBAC & Inventory Flow</strong>
-                </div>
-                <div>
-                  <span>Impact</span>
-                  <strong>Data lebih aman</strong>
-                </div>
-              </div>
-              <div class="portfolio-actions">
-                <a href="#" class="portfolio-primary">Lihat Studi Kasus</a>
-                <a href="#" class="portfolio-secondary">Source Code</a>
-              </div>
+    <div class="portfolio-gallery" id="portfolioGallery" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Galeri proyek portofolio">
+      <div class="gallery-stage" id="galleryStage">
+        <div class="gallery-track" id="galleryTrack">
+
+          <article class="gallery-card" data-index="0">
+            <div class="gallery-card-media" style="background-image:url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80')"></div>
+            <div class="gallery-card-body">
+              <span class="gallery-card-num">01</span>
+              <p class="s-eyebrow">Backend Module</p>
+              <h3 class="s-title">Warehouse Management</h3>
+              <p class="s-desc">Modul ERP "Desaka Suite" dengan sistem inventarisasi kompleks dan implementasi Role-Based Access untuk fitur keamanan <em>Hide Price</em>.</p>
+              <button class="s-btn"><ion-icon name="logo-github"></ion-icon> Source Code</button>
             </div>
           </article>
 
-          <article class="portfolio-slide" style="--slide-accent:#5AC8FA;">
-            <div class="portfolio-media" style="background-image:url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80');"></div>
-            <div class="portfolio-content">
-              <p class="portfolio-kicker">02 // Data Analytics</p>
-              <h3 class="portfolio-title">Attendance Dashboard</h3>
-              <p class="portfolio-desc">Platform presensi yang mengolah data real-time dan menampilkannya sebagai dashboard analitik yang cepat dibaca oleh admin maupun staf.</p>
-              <div class="portfolio-meta">
-                <div>
-                  <span>Stack</span>
-                  <strong>PHP + Chart.js</strong>
-                </div>
-                <div>
-                  <span>Focus</span>
-                  <strong>Realtime Analytics</strong>
-                </div>
-                <div>
-                  <span>Impact</span>
-                  <strong>Monitoring instan</strong>
-                </div>
-              </div>
-              <div class="portfolio-actions">
-                <a href="#" class="portfolio-primary">Lihat Studi Kasus</a>
-                <a href="#" class="portfolio-secondary">Source Code</a>
-              </div>
+          <article class="gallery-card" data-index="1">
+            <div class="gallery-card-media" style="background-image:url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80')"></div>
+            <div class="gallery-card-body">
+              <span class="gallery-card-num">02</span>
+              <p class="s-eyebrow">Data Analytics</p>
+              <h3 class="s-title">Attendance Dashboard</h3>
+              <p class="s-desc">Platform presensi dengan pemrosesan data real-time, menampilkan visualisasi analitik menggunakan integrasi pustaka Chart.js dan backend PHP.</p>
+              <button class="s-btn"><ion-icon name="logo-github"></ion-icon> Source Code</button>
             </div>
           </article>
 
-          <article class="portfolio-slide" style="--slide-accent:#8B7CFF;">
-            <div class="portfolio-media" style="background-image:url('https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80');"></div>
-            <div class="portfolio-content">
-              <p class="portfolio-kicker">03 // Mobile App</p>
-              <h3 class="portfolio-title">Cross-Platform Sync</h3>
-              <p class="portfolio-desc">Aplikasi tersentralisasi dengan sinkronisasi status perangkat secara real-time yang dibangun di atas Firebase dan React Native.</p>
-              <div class="portfolio-meta">
-                <div>
-                  <span>Stack</span>
-                  <strong>Firebase + React Native</strong>
-                </div>
-                <div>
-                  <span>Focus</span>
-                  <strong>Cross-device sync</strong>
-                </div>
-                <div>
-                  <span>Impact</span>
-                  <strong>Update seragam</strong>
-                </div>
-              </div>
-              <div class="portfolio-actions">
-                <a href="#" class="portfolio-primary">Lihat Studi Kasus</a>
-                <a href="#" class="portfolio-secondary">Source Code</a>
-              </div>
+          <article class="gallery-card" data-index="2">
+            <div class="gallery-card-media" style="background-image:url('https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&q=80')"></div>
+            <div class="gallery-card-body">
+              <span class="gallery-card-num">03</span>
+              <p class="s-eyebrow">Mobile App</p>
+              <h3 class="s-title">Cross-Platform Sync</h3>
+              <p class="s-desc">Aplikasi tersentralisasi dengan sinkronisasi status perangkat secara real-time yang mengandalkan arsitektur cloud NoSQL (Firebase) & React Native.</p>
+              <button class="s-btn"><ion-icon name="logo-github"></ion-icon> Source Code</button>
             </div>
           </article>
 
-          <article class="portfolio-slide" style="--slide-accent:#FF8C6B;">
-            <div class="portfolio-media" style="background-image:url('https://images.unsplash.com/photo-1580234797602-22c37b4a6217?auto=format&fit=crop&q=80');"></div>
-            <div class="portfolio-content">
-              <p class="portfolio-kicker">04 // Game Development</p>
-              <h3 class="portfolio-title">3D Combat & AI</h3>
-              <p class="portfolio-desc">Eksplorasi state machine untuk musuh, stamina karakter, dan tempo combat dalam lingkungan 3D menggunakan C# di Unity Engine.</p>
-              <div class="portfolio-meta">
-                <div>
-                  <span>Stack</span>
-                  <strong>C# + Unity</strong>
-                </div>
-                <div>
-                  <span>Focus</span>
-                  <strong>AI state machine</strong>
-                </div>
-                <div>
-                  <span>Impact</span>
-                  <strong>Gameplay lebih hidup</strong>
-                </div>
-              </div>
-              <div class="portfolio-actions">
-                <a href="#" class="portfolio-primary">Lihat Studi Kasus</a>
-                <a href="#" class="portfolio-secondary">Source Code</a>
-              </div>
+          <article class="gallery-card" data-index="3">
+            <div class="gallery-card-media" style="background-image:url('https://images.unsplash.com/photo-1580234797602-22c37b4a6217?auto=format&fit=crop&q=80')"></div>
+            <div class="gallery-card-body">
+              <span class="gallery-card-num">04</span>
+              <p class="s-eyebrow">Game Development</p>
+              <h3 class="s-title">3D Combat & AI</h3>
+              <p class="s-desc">Eksplorasi state machine untuk Artificial Intelligence musuh dan sistem stamina karakter dalam lingkungan 3D menggunakan C# di Unity Engine.</p>
+              <button class="s-btn"><ion-icon name="logo-github"></ion-icon> Source Code</button>
             </div>
           </article>
 
-          <article class="portfolio-slide" style="--slide-accent:#43D9AD;">
-            <div class="portfolio-media" style="background-image:url('https://images.unsplash.com/photo-1555099962-4199c345e5dd?auto=format&fit=crop&q=80');"></div>
-            <div class="portfolio-content">
-              <p class="portfolio-kicker">05 // Web Interface</p>
-              <h3 class="portfolio-title">Interactive Portfolio</h3>
-              <p class="portfolio-desc">Antarmuka website yang dibangun dengan HTML, CSS, dan JavaScript vanilla, lalu dipoles dengan animasi GSAP untuk pengalaman yang lebih sinematik.</p>
-              <div class="portfolio-meta">
-                <div>
-                  <span>Stack</span>
-                  <strong>HTML + CSS + JS</strong>
-                </div>
-                <div>
-                  <span>Focus</span>
-                  <strong>Motion & Layout</strong>
-                </div>
-                <div>
-                  <span>Impact</span>
-                  <strong>Lebih berkesan</strong>
-                </div>
-              </div>
-              <div class="portfolio-actions">
-                <a href="#" class="portfolio-primary">Lihat Studi Kasus</a>
-                <a href="#" class="portfolio-secondary">Source Code</a>
-              </div>
+          <article class="gallery-card" data-index="4">
+            <div class="gallery-card-media" style="background-image:url('https://images.unsplash.com/photo-1555099962-4199c345e5dd?auto=format&fit=crop&q=80')"></div>
+            <div class="gallery-card-body">
+              <span class="gallery-card-num">05</span>
+              <p class="s-eyebrow">Web Interface</p>
+              <h3 class="s-title">Interactive Portfolio</h3>
+              <p class="s-desc">Pengembangan antarmuka website menggunakan vanilla HTML/CSS/JS yang dioptimasi dengan manipulasi DOM dan animasi GSAP ScrollTrigger.</p>
+              <button class="s-btn"><ion-icon name="logo-github"></ion-icon> Source Code</button>
             </div>
           </article>
 
-          <article class="portfolio-slide" style="--slide-accent:#F5A033;">
-            <div class="portfolio-media" style="background-image:url('https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&q=80');"></div>
-            <div class="portfolio-content">
-              <p class="portfolio-kicker">06 // API Engineering</p>
-              <h3 class="portfolio-title">Secure REST Gateway</h3>
-              <p class="portfolio-desc">Perancangan API gateway dengan autentikasi token, rate limiting, dan dokumentasi yang rapi untuk integrasi antarlayanan yang aman.</p>
-              <div class="portfolio-meta">
-                <div>
-                  <span>Stack</span>
-                  <strong>JWT + REST API</strong>
-                </div>
-                <div>
-                  <span>Focus</span>
-                  <strong>Security Layer</strong>
-                </div>
-                <div>
-                  <span>Impact</span>
-                  <strong>Integrasi terjaga</strong>
-                </div>
-              </div>
-              <div class="portfolio-actions">
-                <a href="#" class="portfolio-primary">Lihat Studi Kasus</a>
-                <a href="#" class="portfolio-secondary">Source Code</a>
-              </div>
+          <article class="gallery-card" data-index="5">
+            <div class="gallery-card-media" style="background-image:url('https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&q=80')"></div>
+            <div class="gallery-card-body">
+              <span class="gallery-card-num">06</span>
+              <p class="s-eyebrow">API Engineering</p>
+              <h3 class="s-title">Secure REST Gateway</h3>
+              <p class="s-desc">Perancangan API gateway dengan autentikasi token (JWT), rate limiting, dan dokumentasi terstruktur untuk integrasi antar layanan yang aman dan mudah dipelihara.</p>
+              <button class="s-btn"><ion-icon name="logo-github"></ion-icon> Source Code</button>
             </div>
           </article>
+
         </div>
-      </div>
 
-      <nav class="carousel-nav">
-        <button class="c-btn" id="prevBtn" type="button" aria-label="Proyek sebelumnya">
+        <button class="gallery-arrow gallery-arrow-prev" id="galleryPrev" type="button" aria-label="Proyek sebelumnya">
           <ion-icon name="arrow-back-outline"></ion-icon>
         </button>
-        <div class="carousel-counter" aria-live="polite">
-          <span id="carouselCurrent">01</span>
-          <span class="counter-sep">/</span>
-          <span id="carouselTotal">06</span>
-        </div>
-        <button class="c-btn" id="nextBtn" type="button" aria-label="Proyek berikutnya">
+        <button class="gallery-arrow gallery-arrow-next" id="galleryNext" type="button" aria-label="Proyek berikutnya">
           <ion-icon name="arrow-forward-outline"></ion-icon>
         </button>
-      </nav>
 
-      <div class="carousel-dots" id="carouselDots" role="tablist" aria-label="Pilih proyek"></div>
+        <span class="gallery-counter" id="galleryCounter">01 / 06</span>
+      </div>
+
+      <div class="gallery-progress" id="galleryProgress" aria-hidden="true"></div>
+
+      <div class="gallery-thumbs" id="galleryThumbs" role="tablist" aria-label="Pilih proyek"></div>
     </div>
   </section>
 
